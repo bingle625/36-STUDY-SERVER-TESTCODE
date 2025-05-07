@@ -1,6 +1,6 @@
-package sopt.study.testcode.seongjae.unit;
+package sopt.study.testcode.seongjae.unit.beverage;
 
-public class Latte implements Beverage{
+public class Latte implements Beverage {
 
   @Override
   public String getName() {

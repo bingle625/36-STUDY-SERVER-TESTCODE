@@ -1,5 +1,8 @@
 package sopt.study.testcode.seongjae.unit;
 
+import sopt.study.testcode.seongjae.unit.beverage.Americano;
+import sopt.study.testcode.seongjae.unit.beverage.Latte;
+
 public class CafeKioskRunner {
 
   public static void main(String[] args) {

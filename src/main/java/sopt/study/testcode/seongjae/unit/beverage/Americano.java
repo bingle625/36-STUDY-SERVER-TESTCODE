@@ -1,4 +1,4 @@
-package sopt.study.testcode.seongjae.unit;
+package sopt.study.testcode.seongjae.unit.beverage;
 
 public class Americano  implements Beverage{
 
