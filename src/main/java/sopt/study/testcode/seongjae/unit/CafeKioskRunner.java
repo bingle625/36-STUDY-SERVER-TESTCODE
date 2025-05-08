@@ -1,7 +1,9 @@
 package sopt.study.testcode.seongjae.unit;
 
+import java.time.LocalDateTime;
 import sopt.study.testcode.seongjae.unit.beverage.Americano;
 import sopt.study.testcode.seongjae.unit.beverage.Latte;
+import sopt.study.testcode.seongjae.unit.order.Order;
 
 public class CafeKioskRunner {
 
@@ -14,6 +16,8 @@ public class CafeKioskRunner {
 
     int totalPrice = cafeKiosk.calculateTotalPrice();
     System.out.println("총 주문 가격: " + totalPrice);
+
+    final Order order = cafeKiosk.createOrder(LocalDateTime.now());
   }
 
 }
