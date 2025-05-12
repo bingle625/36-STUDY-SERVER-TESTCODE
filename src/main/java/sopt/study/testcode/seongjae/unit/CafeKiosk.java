@@ -28,7 +28,10 @@ public class CafeKiosk {
   }
 
   public void remove(Beverage beverage) {
+
     beverages.remove(beverage);
+
+
   }
 
   public void clear() {
@@ -36,11 +39,10 @@ public class CafeKiosk {
   }
 
   public int calculateTotalPrice() {
-    int toalPrice = 0;
-    for (Beverage beverage : beverages) {
-      toalPrice += beverage.getPrice();
-    }
-    return toalPrice;
+
+    return beverages.stream()
+        .mapToInt(Beverage::getPrice)
+        .sum();
   }
 
   public Order createOrder() {
