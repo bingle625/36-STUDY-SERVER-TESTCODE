@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import sopt.study.testcode.seongjae.api.controller.order.request.OrderCreateRequest;
 import sopt.study.testcode.seongjae.api.service.order.response.OrderResponse;
 import sopt.study.testcode.seongjae.domain.order.Order;
@@ -19,6 +20,7 @@ import sopt.study.testcode.seongjae.domain.stock.StockRepository;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class OrderService {
 
   private final ProductRepository productRepository;

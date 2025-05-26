@@ -28,7 +28,6 @@ import sopt.study.testcode.seongjae.domain.stock.StockRepository;
 
 @ActiveProfiles("test")
 @SpringBootTest
-@Transactional
 class OrderServiceTest {
 
   @Autowired
@@ -46,12 +45,13 @@ class OrderServiceTest {
   @Autowired
   private StockRepository stockRepository;
 
-//  @AfterEach
-//  void tearDown() {
-//    orderProductRepository.deleteAllInBatch();
-//    productRepository.deleteAllInBatch();
-//    orderRepository.deleteAllInBatch();
-//  }
+  @AfterEach
+  void tearDown() {
+    orderProductRepository.deleteAllInBatch();
+    productRepository.deleteAllInBatch();
+    orderRepository.deleteAllInBatch();
+    stockRepository.deleteAllInBatch();
+  }
 
   @DisplayName("주문번호 리스트를 받아 주문을 생성한다.")
   @Test
@@ -157,6 +157,31 @@ class OrderServiceTest {
             tuple("001", 0),
             tuple("002", 1)
         );
+  }
+
+  @DisplayName("재고가 없는 상품으로 주문을 생성하려고 하는 경우 예외가 발생한다.")
+  @Test
+  void createOrderWithNoStock() {
+    // given
+    final LocalDateTime registeredDateTime = LocalDateTime.now();
+
+    final Product product1 = createProduct(BOTTLE, "001", 1000);
+    final Product product2 = createProduct(BAKERY, "002", 3000);
+    final Product product3 = createProduct(HANDMADE, "003", 5000);
+    productRepository.saveAll(List.of(product1, product2, product3));
+
+    final Stock stock1 = Stock.create("001", 1);
+    final Stock stock2 = Stock.create("002", 1);
+    stockRepository.saveAll(List.of(stock1, stock2));
+
+    final OrderCreateRequest request = OrderCreateRequest.builder()
+        .productNumbers(List.of("001", "001", "002", "003"))
+        .build();
+
+    // when & then
+    assertThatThrownBy(() -> orderService.createOrder(request, registeredDateTime))
+        .isInstanceOf(IllegalArgumentException.class)
+        .hasMessage("재고가 부족한 상품이 있습니다.");
   }
 
   private Product createProduct(
