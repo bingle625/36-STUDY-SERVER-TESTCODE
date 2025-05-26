@@ -2,6 +2,8 @@ package sopt.study.testcode.seongjae.api.service.order;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import sopt.study.testcode.seongjae.api.controller.order.request.OrderCreateRequest;
@@ -24,12 +26,22 @@ public class OrderService {
   ) {
     List<String> productNumbers = request.getProductNumbers();
     // product
-    final List<Product> products = productRepository.findAllByProductNumberIn(productNumbers);
+    final List<Product> duplicateProducts = findProductsBy(productNumbers);
 
     // order
-    Order order = Order.create(products, registeredDateTime);
+    Order order = Order.create(duplicateProducts, registeredDateTime);
     final Order savedOrder = orderRepository.save(order);
 
     return OrderResponse.of(savedOrder);
+  }
+
+  private List<Product> findProductsBy(final List<String> productNumbers) {
+    final List<Product> products = productRepository.findAllByProductNumberIn(productNumbers);
+    final Map<String, Product> productMap = products.stream()
+        .collect(Collectors.toMap(Product::getProductNumber, p -> p));
+
+    return productNumbers.stream()
+        .map(productMap::get)
+        .toList();
   }
 }
