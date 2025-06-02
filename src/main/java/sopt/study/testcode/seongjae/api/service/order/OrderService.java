@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sopt.study.testcode.seongjae.api.controller.order.request.OrderCreateRequest;
+import sopt.study.testcode.seongjae.api.service.order.request.OrderCreateServiceRequest;
 import sopt.study.testcode.seongjae.api.service.order.response.OrderResponse;
 import sopt.study.testcode.seongjae.domain.order.Order;
 import sopt.study.testcode.seongjae.domain.order.OrderRepository;
@@ -34,7 +35,7 @@ public class OrderService {
    * @return 주문 응답
    */
   public OrderResponse createOrder(
-      final OrderCreateRequest request,
+      final OrderCreateServiceRequest request,
       final LocalDateTime registeredDateTime
   ) {
     List<String> productNumbers = request.getProductNumbers();

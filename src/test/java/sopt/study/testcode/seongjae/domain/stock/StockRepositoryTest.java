@@ -42,7 +42,6 @@ class StockRepositoryTest {
             tuple("001", 1),
             tuple("002", 2)
         );
-
   }
 
 }
